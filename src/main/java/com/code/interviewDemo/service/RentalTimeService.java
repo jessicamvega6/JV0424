@@ -16,12 +16,8 @@ public class RentalTimeService {
     LocalDate dueDate;
     List<LocalDate> rentalDates;
     Long numberOfDaysRenting;
-
-    boolean rentalFallsOnHoliday;
-    Long numberOfHolidaysDuringRental = 0L;
-
     boolean rentalFallsOnWeekend;
-    int numberOfWeekendDays = 0; //figure out better name
+    int numberDaysInWeekendDuringRental = 0;
     List<Holiday> holidays = new ArrayList<>();
 
     RentalTimeService(LocalDate checkoutDate, Long numberOfDaysRenting) {
@@ -29,7 +25,7 @@ public class RentalTimeService {
         this.dueDate = checkoutDate.plusDays(numberOfDaysRenting);
         this.numberOfDaysRenting = numberOfDaysRenting;
         getAllDatesInRental(numberOfDaysRenting);
-        checkIfRentalIncludesHoliday();
+        setHolidaysDuringRental();
         checkIfRentalIncludesWeekends();
     }
 
@@ -39,12 +35,11 @@ public class RentalTimeService {
         }
     }
 
-    private void checkIfRentalIncludesHoliday() {
+    private void setHolidaysDuringRental() {
         for(LocalDate day : rentalDates) {
             isLaborDay(day);
             is4thOfJuly(day, rentalDates);
         }
-        rentalFallsOnHoliday = !holidays.isEmpty();
     }
 
     private void getAllDatesInRental(Long numberOfDaysRenting) {
@@ -54,11 +49,11 @@ public class RentalTimeService {
         }
     }
 
-
     public void is4thOfJuly(LocalDate date, List<LocalDate> rentalDates) {
         if(date.getMonth().equals(JULY) && date.getDayOfMonth() == 4) {
             Holiday holiday = new Holiday();
             holiday.setHolidayName("July 4th");
+
             if(date.getDayOfWeek() == DayOfWeek.SATURDAY) {
                 holidayObservedDuringRentalRange(date.minusDays(1), rentalDates, holiday);
             } else if (date.getDayOfWeek() == DayOfWeek.SUNDAY ) {
@@ -84,8 +79,6 @@ public class RentalTimeService {
             if (date.getDayOfMonth() <= 7) {
                 Holiday holiday = new Holiday();
                 holiday.setHolidayName("Labor Day");
-//                holiday.setHolidayDate(date);
-                numberOfHolidaysDuringRental++;
                 holidays.add(holiday);
                 holiday.setHolidayIsObservedDuringRental(true);
             }
@@ -94,7 +87,7 @@ public class RentalTimeService {
 
     public boolean isWeekend(LocalDate date) {
         if(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
-            numberOfWeekendDays++;
+            numberDaysInWeekendDuringRental++;
             rentalFallsOnWeekend = true;
         }
         return false;

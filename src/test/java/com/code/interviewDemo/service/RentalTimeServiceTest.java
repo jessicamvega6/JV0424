@@ -1,6 +1,5 @@
 package com.code.interviewDemo.service;
 
-import com.code.interviewDemo.domain.Tools;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -17,7 +16,6 @@ class RentalTimeServiceTest {
 
         RentalTimeService service = new RentalTimeService(checkoutDate, 4L);
 
-        assertThat(service.rentalFallsOnHoliday, equalTo(true));
         assertThat(service.getHolidays().size(), equalTo(1));
         assertThat(service.getHolidays().get(0).getHolidayName(), equalTo("July 4th"));
     }
@@ -28,7 +26,6 @@ class RentalTimeServiceTest {
 
         RentalTimeService service = new RentalTimeService(checkoutDate, 4L);
 
-        assertThat(service.rentalFallsOnHoliday, equalTo(true));
         assertThat(service.getHolidays().size(), equalTo(1));
         assertThat(service.getHolidays().get(0).getHolidayName(), equalTo("Labor Day"));
 
@@ -40,7 +37,7 @@ class RentalTimeServiceTest {
 
         RentalTimeService service = new RentalTimeService(checkoutDate, 1L);
 
-        assertThat(service.rentalFallsOnHoliday, equalTo(false));
+        assertThat(service.getHolidays().size(), equalTo(0));
     }
 
     @Test
@@ -49,7 +46,7 @@ class RentalTimeServiceTest {
 
         RentalTimeService service = new RentalTimeService(checkoutDate, 4L);
 
-        assertThat(service.rentalFallsOnHoliday, equalTo(false));
+        assertThat(service.getHolidays().size(), equalTo(0));
     }
 
     @Test
@@ -58,7 +55,7 @@ class RentalTimeServiceTest {
 
         RentalTimeService service = new RentalTimeService(checkoutDate, 4L);
 
-        assertThat(service.rentalFallsOnHoliday, equalTo(true));
+        assertThat(service.getHolidays().size(), equalTo(1));
     }
 
     @Test
@@ -68,7 +65,7 @@ class RentalTimeServiceTest {
         RentalTimeService service = new RentalTimeService(checkoutDate, 4L);
 
         assertThat(service.rentalFallsOnWeekend, equalTo(true));
-        assertThat(service.numberOfWeekendDays, equalTo(2));
+        assertThat(service.numberDaysInWeekendDuringRental, equalTo(2));
     }
 
     @Test
@@ -78,7 +75,7 @@ class RentalTimeServiceTest {
         RentalTimeService service = new RentalTimeService(checkoutDate, 4L);
 
         assertThat(service.rentalFallsOnWeekend, equalTo(true));
-        assertThat(service.numberOfWeekendDays, equalTo(1));
+        assertThat(service.numberDaysInWeekendDuringRental, equalTo(1));
     }
 
     @Test
@@ -88,17 +85,29 @@ class RentalTimeServiceTest {
         RentalTimeService service = new RentalTimeService(checkoutDate, 2L);
 
         assertThat(service.rentalFallsOnWeekend, equalTo(false));
-        assertThat(service.numberOfWeekendDays, equalTo(0));
+        assertThat(service.numberDaysInWeekendDuringRental, equalTo(0));
     }
 
     @Test
-    void getHolidays_hasJuly4thandLaborday_returnListSize2() {
+    void getHolidays_hasJuly4thAndLaborDay_returnListSize2() {
         LocalDate checkoutDate = LocalDate.of(2023, 7, 2);
 
         RentalTimeService service = new RentalTimeService(checkoutDate, 64L);
         assertThat(service.holidays.size(), equalTo(2));
         assertThat(service.holidays.get(0).getHolidayName(), equalTo("July 4th"));
         assertThat(service.holidays.get(1).getHolidayName(), equalTo("Labor Day"));
+    }
+
+    @Test
+    void getHolidays_hasTwoJuly4thHolidays_returnListSize2() {
+        LocalDate checkoutDate = LocalDate.of(2023, 7, 2);
+
+        RentalTimeService service = new RentalTimeService(checkoutDate, 731L);
+        assertThat(service.holidays.size(), equalTo(4));
+        assertThat(service.holidays.get(0).getHolidayName(), equalTo("July 4th"));
+        assertThat(service.holidays.get(1).getHolidayName(), equalTo("Labor Day"));
+        assertThat(service.holidays.get(2).getHolidayName(), equalTo("July 4th"));
+        assertThat(service.holidays.get(3).getHolidayName(), equalTo("Labor Day"));
     }
 
     @Test
