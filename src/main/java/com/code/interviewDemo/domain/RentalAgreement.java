@@ -1,24 +1,24 @@
 package com.code.interviewDemo.domain;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class RentalAgreement {
-    final DateTimeFormatter FORMMATER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
     private String toolCode;
     private String toolType;
     private String toolBrand;
-    private int rentalDays;
+    private Long rentalDays;
     private LocalDate checkoutDate;
     private LocalDate dueDate;
     private Double dailyRentalCharge;
-    private Integer chargeDays;
-    private Double preDiscountCharge;
-    private Double discountCharge;
+    private Long chargeDays;
+    private BigDecimal preDiscountCharge;
     private int discountPercent;
-    private Double discountAmount;
-    private Double finalCharge;
+    private BigDecimal discountAmount;
+    private BigDecimal finalCharge;
 
     public String getToolCode() {
         return toolCode;
@@ -44,11 +44,11 @@ public class RentalAgreement {
         this.toolBrand = toolBrand;
     }
 
-    public int getRentalDays() {
+    public Long getRentalDays() {
         return rentalDays;
     }
 
-    public void setRentalDays(int rentalDays) {
+    public void setRentalDays(Long rentalDays) {
         this.rentalDays = rentalDays;
     }
 
@@ -60,28 +60,20 @@ public class RentalAgreement {
         this.dailyRentalCharge = dailyRentalCharge;
     }
 
-    public Integer getChargeDays() {
+    public Long getChargeDays() {
         return chargeDays;
     }
 
-    public void setChargeDays(Integer chargeDays) {
+    public void setChargeDays(Long chargeDays) {
         this.chargeDays = chargeDays;
     }
 
-    public Double getPreDiscountCharge() {
-        return Math.round(preDiscountCharge * 100.0) / 100.0;
+    public BigDecimal getPreDiscountCharge() {
+        return preDiscountCharge;
     }
 
-    public void setPreDiscountCharge(Double preDiscountCharge) {
+    public void setPreDiscountCharge(BigDecimal preDiscountCharge) {
         this.preDiscountCharge = preDiscountCharge;
-    }
-
-    public Double getDiscountCharge() {
-        return Math.round(discountCharge * 100.0) / 100.0;
-    }
-
-    public void setDiscountCharge(Double discountCharge) {
-        this.discountCharge = discountCharge;
     }
 
     public int getDiscountPercent() {
@@ -92,24 +84,24 @@ public class RentalAgreement {
         this.discountPercent = discountPercent;
     }
 
-    public Double getDiscountAmount() {
-        return Math.round(discountAmount * 100.0) / 100.0;
+    public BigDecimal getDiscountAmount() {
+        return discountAmount;
     }
 
-    public void setDiscountAmount(Double discountAmount) {
+    public void setDiscountAmount(BigDecimal discountAmount) {
         this.discountAmount = discountAmount;
     }
 
-    public Double getFinalCharge() {
-        return Math.round(finalCharge * 100.0) / 100.0;
+    public BigDecimal getFinalCharge() {
+        return finalCharge;
     }
 
-    public void setFinalCharge(double finalCharge) {
+    public void setFinalCharge(BigDecimal finalCharge) {
         this.finalCharge = finalCharge;
     }
 
     public String getDueDate() {
-        return dueDate.format(FORMMATER);
+        return dueDate.format(FORMATTER);
     }
 
     public void setDueDate(LocalDate dueDate) {
@@ -117,7 +109,7 @@ public class RentalAgreement {
     }
 
     public String getCheckoutDate() {
-        return checkoutDate.format(FORMMATER);
+        return checkoutDate.format(FORMATTER);
     }
 
     public void setCheckoutDate(LocalDate checkoutDate) {
@@ -131,15 +123,14 @@ public class RentalAgreement {
                 "toolType='" + toolType + '\'' + '\n' +
                 "toolBrand='" + toolBrand + '\'' + '\n' +
                 "rentalDays=" + rentalDays + '\n' +
-                "checkoutDate=" + checkoutDate.format(FORMMATER) + '\n' +
-                "dueDate=" + dueDate.format(FORMMATER) + '\n' +
-                "dailyRentalCharge=" + dailyRentalCharge + '\n' +
+                "checkoutDate=" + checkoutDate.format(FORMATTER) + '\n' +
+                "dueDate=" + dueDate.format(FORMATTER) + '\n' +
+                "dailyRentalCharge= $" + dailyRentalCharge + '\n' +
                 "chargeDays=" + chargeDays + '\n' +
-                "preDiscountCharge=" + preDiscountCharge + '\n' +
-                "discountCharge=" + discountCharge + '\n' +
-                "discountPercent=" + discountPercent + '\n' +
-                "discountAmount=" + discountAmount + '\n' +
-                "finalCharge=" + finalCharge;
+                "preDiscountCharge= $" + preDiscountCharge + '\n' + //TODO have money have $ and perentages %
+                "discountPercent=" + discountPercent + "%" +'\n' +
+                "discountAmount= $" + discountAmount + '\n' +
+                "finalCharge= $" + finalCharge;
     }
 
     public void printToConsole() {
