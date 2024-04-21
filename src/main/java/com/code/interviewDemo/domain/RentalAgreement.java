@@ -16,6 +16,27 @@ public class RentalAgreement {
     private Long discountCharge;
     private int discountPercent;
     private Long discountAmount;
-    private Long finalChagre;
+    private Long finalCharge;
 
+    @Override
+    public String toString() {
+        return
+                "toolCode='" + toolCode + '\'' + '\n' +
+                "toolType='" + toolType + '\'' + '\n' +
+                "toolBrand='" + toolBrand + '\'' + '\n' +
+                "rentalDays=" + rentalDays + '\n' +
+                "checkoutDate=" + checkoutDate + '\n' +
+                "dueDate=" + dueDate + '\n' +
+                "dailyRentalCharge=" + dailyRentalCharge + '\n' +
+                "chargeDays=" + chargeDays + '\n' +
+                "preDiscountCharge=" + preDiscountCharge + '\n' +
+                "discountCharge=" + discountCharge + '\n' +
+                "discountPercent=" + discountPercent + '\n' +
+                "discountAmount=" + discountAmount + '\n' +
+                "finalCharge=" + finalCharge;
+    }
+
+    public void printToConsole() {
+        System.out.println(this);
+    }
 }
