@@ -56,7 +56,7 @@ public class CheckoutTest {
 
     @Test(expected = RuntimeException.class)
     public void checkout_checkoutDateIsNull_fails() throws Exception {
-        checkout.checkout("JR", null, 2, 0);
+        checkout.checkout("JAKR", null, 2, 0);
     }
 
     @Test(expected = RuntimeException.class)
@@ -76,7 +76,19 @@ public class CheckoutTest {
 
     @Test
     public void checkout_toolCodeWeirdCapitalization_DoesNotFail() throws Exception {
-        RentalAgreement agreement = checkout.checkout("JakR", "9/13/14", 2, 0);
+        RentalAgreement agreement = checkout.checkout("JakR", "09/13/14", 2, 0);
+        assertNotNull(agreement);
+    }
+
+    @Test
+    public void checkout_dateInFormatMdyy_doesNotFail() throws Exception {
+        RentalAgreement agreement = checkout.checkout("JAKR", "9/3/14", 2, 0);
+        assertNotNull(agreement);
+    }
+
+    @Test
+    public void checkout_dateInFormatMMddyy_doesNotFail() throws Exception {
+        RentalAgreement agreement = checkout.checkout("JAKR", "12/13/14", 2, 0);
         assertNotNull(agreement);
     }
 

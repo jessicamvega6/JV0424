@@ -10,17 +10,32 @@ import java.util.regex.Pattern;
 
 public class Checkout {
 
-    public RentalAgreement checkout(String toolCode, String checkoutDate, Integer rentalDayCount, int discountPercent ) {
+    public RentalAgreement checkout(String toolCode, String checkoutDateStr, Integer rentalDayCount, int discountPercent ) {
         validateTool(toolCode);
-        validateCheckoutDate(checkoutDate);
+        validateCheckoutDate(checkoutDateStr);
+        LocalDate checkoutDate = validateAndConvertToDateObject(checkoutDateStr);
         validateRentalCount(rentalDayCount);
         validateDiscount(discountPercent);
 
         RentalTimeService rental = new RentalTimeService(checkoutDate, rentalDayCount);
 
-
-
         return new RentalAgreement();
+    }
+
+    private LocalDate validateAndConvertToDateObject(String checkoutDateStr) {
+        if(checkIfNull(checkoutDateStr)) {
+            throw new RuntimeException("Checkout date is null. Please fix checkout date");
+        }
+
+        LocalDate formatedDateMdyy = checkAndConvertIfMatchingFormat(checkoutDateStr, "^\\d{1}/\\d{1}/\\d{2}$", "M/d/yy");
+        LocalDate formatedDateMMddyy = checkAndConvertIfMatchingFormat(checkoutDateStr, "^\\d{2}/\\d{2}/\\d{2}$", "MM/dd/yy");
+
+        if(formatedDateMdyy == null && formatedDateMMddyy == null) {
+            throw new RuntimeException("Checkout date format of " + checkoutDateStr + " is incorrect, please correct date.");
+        }
+
+        LocalDate checkoutDate = checkIfDateIsInFuture(formatedDateMdyy, formatedDateMMddyy);
+        return checkoutDate;
     }
 
     private void validateDiscount(int discountPercent) {
@@ -36,28 +51,34 @@ public class Checkout {
     }
 
     private void validateCheckoutDate(String checkoutDate) {
-        if(checkIfNull(checkoutDate)) {
-            throw new RuntimeException("Checkout date is null. Please fix checkout date");
-        }
-        checkIfInCorrectFormat(checkoutDate);
-        checkIfDateIsInFuture(checkoutDate);
+
     }
 
-    private void checkIfDateIsInFuture(String checkoutDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/dd/yy");
-        LocalDate localDate = LocalDate.parse(checkoutDate, formatter);
-        if(localDate.isAfter(LocalDate.now())) {
+//    private void checkIfDateIsInFuture(String checkoutDate) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/dd/yy");
+//        LocalDate localDate = LocalDate.parse(checkoutDate, formatter);
+//        if(localDate.isAfter(LocalDate.now())) {
+//            throw new RuntimeException("Checkout date is in the future. Sorry we do not hold tools for future dates");
+//        }
+//    }
+
+    private LocalDate checkIfDateIsInFuture(LocalDate dateFormat1, LocalDate dateFormat2) {
+        LocalDate date = dateFormat1 != null ? dateFormat1 : dateFormat2;
+        if(date.isAfter(LocalDate.now())) {
             throw new RuntimeException("Checkout date is in the future. Sorry we do not hold tools for future dates");
         }
+
+        return date;
     }
 
-    private void checkIfInCorrectFormat(String checkoutDate) {
-        String datePattern = "^\\d{1}/\\d{2}/\\d{2}$";
-        Pattern pat = Pattern.compile(datePattern);
+    private LocalDate checkAndConvertIfMatchingFormat(String checkoutDate, String pattern, String format) {
+        Pattern pat = Pattern.compile(pattern);
         Matcher mat = pat.matcher(checkoutDate);
-        if(!mat.matches()) {
-            throw new RuntimeException("Checkout date format is incorrect, please correct date.");
+        if(mat.matches()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+            return LocalDate.parse(checkoutDate, formatter);
         }
+        return null;
     }
 
     private boolean checkIfNull(String value) {
