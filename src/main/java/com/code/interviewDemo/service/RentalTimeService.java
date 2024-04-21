@@ -48,7 +48,7 @@ public class RentalTimeService {
 
     private void getAllDatesInRental(int numberOfDaysRenting) {
         rentalDates = new ArrayList<>();
-        for(int i = 0; i <= numberOfDaysRenting; i++){
+        for(int i = 1; i <= numberOfDaysRenting; i++){
             rentalDates.add(checkoutDate.plusDays(i));
         }
     }

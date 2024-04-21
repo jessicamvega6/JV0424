@@ -12,7 +12,7 @@ class RentalTimeServiceTest {
 
     @Test
     void is4thOfJuly_fourthOfJuly_returnTrue() {
-        LocalDate checkoutDate = LocalDate.of(2024, 7, 4);
+        LocalDate checkoutDate = LocalDate.of(2024, 7, 3);
 
         RentalTimeService service = new RentalTimeService(checkoutDate, 4);
 
@@ -22,7 +22,7 @@ class RentalTimeServiceTest {
 
     @Test
     void isLaborDay_laborDay_returnTrue() {
-        LocalDate checkoutDate = LocalDate.of(2024, 9, 2);
+        LocalDate checkoutDate = LocalDate.of(2024, 9, 1);
 
         RentalTimeService service = new RentalTimeService(checkoutDate, 4);
 
@@ -50,7 +50,7 @@ class RentalTimeServiceTest {
 
     @Test
     void isWeekend_givenADateOnSaturday_returnTrue() {
-        LocalDate checkoutDate = LocalDate.of(2024, 4, 20);
+        LocalDate checkoutDate = LocalDate.of(2024, 4, 19);
 
         RentalTimeService service = new RentalTimeService(checkoutDate, 4);
 
@@ -60,7 +60,7 @@ class RentalTimeServiceTest {
 
     @Test
     void isWeekend_givenADateOnSunday_returnTrue() {
-        LocalDate checkoutDate = LocalDate.of(2024, 4, 21);
+        LocalDate checkoutDate = LocalDate.of(2024, 4, 20);
 
         RentalTimeService service = new RentalTimeService(checkoutDate, 4);
 
@@ -83,7 +83,6 @@ class RentalTimeServiceTest {
         LocalDate expectedCheckoutDate = LocalDate.of(2024, 4, 20);
         LocalDate expectedDueDate = LocalDate.of(2024, 4, 24);
         List<LocalDate> expectRentalDates = new ArrayList<>();
-        expectRentalDates.add(LocalDate.of(2024, 4, 20));
         expectRentalDates.add(LocalDate.of(2024, 4, 21));
         expectRentalDates.add(LocalDate.of(2024, 4, 22));
         expectRentalDates.add(LocalDate.of(2024, 4, 23));
@@ -93,11 +92,10 @@ class RentalTimeServiceTest {
 
         assertThat(service.checkoutDate, equalTo(expectedCheckoutDate));
         assertThat(service.dueDate, equalTo(expectedDueDate));
-        assertThat(service.rentalDates.size(), equalTo(5));
+        assertThat(service.rentalDates.size(), equalTo(4));
         assertThat(service.rentalDates.get(0), equalTo(expectRentalDates.get(0)));
         assertThat(service.rentalDates.get(1), equalTo(expectRentalDates.get(1)));
         assertThat(service.rentalDates.get(2), equalTo(expectRentalDates.get(2)));
         assertThat(service.rentalDates.get(3), equalTo(expectRentalDates.get(3)));
-        assertThat(service.rentalDates.get(4), equalTo(expectRentalDates.get(4)));
     }
 }
