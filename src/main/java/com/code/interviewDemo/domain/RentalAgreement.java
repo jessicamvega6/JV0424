@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class RentalAgreement {
-    final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yy");
 
     private String toolCode;
     private String toolType;

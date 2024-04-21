@@ -19,6 +19,7 @@ public class Checkout {
         RentalTimeService rental = new RentalTimeService(checkoutDate, rentalDayCount);
         CalculateCost cost = new CalculateCost(rental, discountPercent, tool);
         RentalAgreementService service = new RentalAgreementService(rental, cost);
+        service.getRentalAgreement().printToConsole();
         return service.getRentalAgreement();
     }
 

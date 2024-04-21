@@ -113,8 +113,8 @@ public class CheckoutTest {
         assertThat(agreement.getToolType(), equalTo("Ladder"));
         assertThat(agreement.getToolBrand(), equalTo("Werner"));
         assertThat(agreement.getRentalDays(), equalTo(3L));
-        assertThat(agreement.getCheckoutDate(), equalTo("07/02/2020"));
-        assertThat(agreement.getDueDate(), equalTo("07/05/2020"));
+        assertThat(agreement.getCheckoutDate(), equalTo("07/02/20"));
+        assertThat(agreement.getDueDate(), equalTo("07/05/20"));
         assertThat(agreement.getDailyRentalCharge(), equalTo(1.99));
         assertThat(agreement.getChargeDays(), equalTo(2L));
         assertThat(agreement.getDiscountPercent(), equalTo(10));
@@ -134,8 +134,8 @@ public class CheckoutTest {
         assertThat(agreement.getToolType(), equalTo("Chainsaw"));
         assertThat(agreement.getToolBrand(), equalTo("Stihl"));
         assertThat(agreement.getRentalDays(), equalTo(5L));
-        assertThat(agreement.getCheckoutDate(), equalTo("07/02/2015"));
-        assertThat(agreement.getDueDate(), equalTo("07/07/2015"));
+        assertThat(agreement.getCheckoutDate(), equalTo("07/02/15"));
+        assertThat(agreement.getDueDate(), equalTo("07/07/15"));
         assertThat(agreement.getDailyRentalCharge(), equalTo(1.49));
         assertThat(agreement.getChargeDays(), equalTo(3L));
         assertThat(agreement.getPreDiscountCharge(), equalTo(expectedPreDiscountCharge));
@@ -156,8 +156,8 @@ public class CheckoutTest {
         assertThat(agreement.getToolType(), equalTo("Jackhammer"));
         assertThat(agreement.getToolBrand(), equalTo("DeWalt"));
         assertThat(agreement.getRentalDays(), equalTo(6L));
-        assertThat(agreement.getCheckoutDate(), equalTo("09/03/2015"));
-        assertThat(agreement.getDueDate(), equalTo("09/09/2015"));
+        assertThat(agreement.getCheckoutDate(), equalTo("09/03/15"));
+        assertThat(agreement.getDueDate(), equalTo("09/09/15"));
         assertThat(agreement.getDailyRentalCharge(), equalTo(2.99));
         assertThat(agreement.getChargeDays(), equalTo(3L));
         assertThat(agreement.getDiscountPercent(), equalTo(0));;
@@ -178,8 +178,8 @@ public class CheckoutTest {
         assertThat(agreement.getToolType(), equalTo("Jackhammer"));
         assertThat(agreement.getToolBrand(), equalTo("Ridgid"));
         assertThat(agreement.getRentalDays(), equalTo(9L));
-        assertThat(agreement.getCheckoutDate(), equalTo("07/02/2015"));
-        assertThat(agreement.getDueDate(), equalTo("07/11/2015"));
+        assertThat(agreement.getCheckoutDate(), equalTo("07/02/15"));
+        assertThat(agreement.getDueDate(), equalTo("07/11/15"));
         assertThat(agreement.getDailyRentalCharge(), equalTo(2.99));
         assertThat(agreement.getChargeDays(), equalTo(5L));
         assertThat(agreement.getDiscountPercent(), equalTo(0));
@@ -199,8 +199,8 @@ public class CheckoutTest {
         assertThat(agreement.getToolType(), equalTo("Jackhammer"));
         assertThat(agreement.getToolBrand(), equalTo("Ridgid"));
         assertThat(agreement.getRentalDays(), equalTo(4L));
-        assertThat(agreement.getCheckoutDate(), equalTo("07/02/2020"));
-        assertThat(agreement.getDueDate(), equalTo("07/06/2020"));
+        assertThat(agreement.getCheckoutDate(), equalTo("07/02/20"));
+        assertThat(agreement.getDueDate(), equalTo("07/06/20"));
         assertThat(agreement.getDailyRentalCharge(), equalTo(2.99));
         assertThat(agreement.getChargeDays(), equalTo(1L));
         assertThat(agreement.getDiscountPercent(), equalTo(50));
