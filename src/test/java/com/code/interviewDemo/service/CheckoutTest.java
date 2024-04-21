@@ -28,22 +28,27 @@ public class CheckoutTest {
 
     @Test(expected = RuntimeException.class)
     public void checkout_negativeNumberOfDaysRented_fails() throws Exception {
-        checkout.checkout("JAKR", "9/13/14", -2, 0);
+        checkout.checkout("JAKR", "09/13/14", -2, 0);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void checkout_zeroDaysRented_fails() throws Exception {
+        checkout.checkout("JAKR", "09/13/14", 0, 0);
     }
 
     @Test(expected = RuntimeException.class)
     public void checkout_rentalDateIsNull_fails() throws Exception {
-        checkout.checkout("JAKR", "9/13/14", null, 0);
+        checkout.checkout("JAKR", "09/13/14", null, 0);
     }
 
     @Test(expected = RuntimeException.class)
     public void checkout_toolDoesntExist_fails() throws Exception {
-        checkout.checkout("JR", "9/13/14", 2, 0);
+        checkout.checkout("JR", "09/13/14", 2, 0);
     }
 
     @Test(expected = RuntimeException.class)
     public void checkout_toolIsNull_fails() throws Exception {
-        checkout.checkout(null, "9/13/14", 2, 0);
+        checkout.checkout(null, "09/13/14", 2, 0);
     }
 
     @Test(expected = RuntimeException.class)
