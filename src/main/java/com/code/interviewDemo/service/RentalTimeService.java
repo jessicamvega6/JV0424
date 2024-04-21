@@ -13,9 +13,7 @@ public class RentalTimeService {
     boolean rentalFallsOnHoliday;
     String holidayName;
 
-    RentalTimeService(String checkoutString, int numberOfDaysRenting) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("M/dd/yy");
-        LocalDate checkoutDate = LocalDate.parse(checkoutString, dateTimeFormatter);
+    RentalTimeService(LocalDate checkoutDate, int numberOfDaysRenting) {
         this.checkoutDate = checkoutDate;
         this.dueDate = checkoutDate.plusDays(numberOfDaysRenting);
         getAllDatesInRental(numberOfDaysRenting);

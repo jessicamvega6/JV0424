@@ -15,16 +15,25 @@ class RentalTimeServiceTest {
 
     @Test
     void is4thOfJuly_fourthOfJuly_returnTrue() {
+        LocalDate checkoutDate = LocalDate.of(2024, 7, 4);
 
+        RentalTimeService service = new RentalTimeService(checkoutDate, 4);
+
+        assertThat(service.rentalFallsOnHoliday, equalTo(true));
     }
 
     @Test
     void isLaborDay_laborDay_returnTrue() {
+
     }
 
     @Test
     void is4thOfJuly_anyOtherDayButJuly4Th_returnFalse() {
+        LocalDate checkoutDate = LocalDate.of(2024, 7, 1);
 
+        RentalTimeService service = new RentalTimeService(checkoutDate, 4);
+
+        assertThat(service.rentalFallsOnHoliday, equalTo(false));
     }
 
     @Test
@@ -55,7 +64,7 @@ class RentalTimeServiceTest {
         expectRentalDates.add(LocalDate.of(2024, 4, 23));
         expectRentalDates.add(LocalDate.of(2024, 4, 24));
 
-        RentalTimeService service = new RentalTimeService("4/20/24", 4);
+        RentalTimeService service = new RentalTimeService(LocalDate.of(2024, 4, 20), 4);
 
         assertThat(service.checkoutDate, equalTo(expectedCheckoutDate));
         assertThat(service.dueDate, equalTo(expectedDueDate));
