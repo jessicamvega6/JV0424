@@ -1,20 +1,19 @@
 package com.code.interviewDemo.service;
 
 import com.code.interviewDemo.domain.Holiday;
-import com.code.interviewDemo.domain.RentalAgreement;
 import com.code.interviewDemo.domain.Tools;
 
-import java.time.Month;
-import java.time.MonthDay;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class CalculateCost {
 
     int discountPercent;
     Long chargeableDays;
     Tools tool;
-    Double preDiscountCharge = 0.00;
-    Double discountAmount = 0.00;
-    Double finalCharge;
+    BigDecimal preDiscountCharge;
+    BigDecimal discountAmount;
+    BigDecimal finalCharge;
 
     CalculateCost(RentalTimeService rentalTime, int discountPercent, Tools tool) {
         this.discountPercent = discountPercent;
@@ -26,17 +25,19 @@ public class CalculateCost {
     }
 
     private void calculatePreDiscountCharge() {
-        preDiscountCharge = tool.getDailyCharge() * chargeableDays;
+        double preDiscountChargeBeforeRounding = tool.getDailyCharge() * chargeableDays;
+        preDiscountCharge = BigDecimal.valueOf(preDiscountChargeBeforeRounding).setScale(2, RoundingMode.HALF_UP);
     }
 
     private void calculateDiscountAmount() {
-        double discount = preDiscountCharge * discountPercent / 100;
-        discountAmount = (double) Math.round(discount * 100) / 100;
+        BigDecimal discount = preDiscountCharge.multiply(BigDecimal.valueOf(discountPercent)).divide(BigDecimal.valueOf(100)) ;
+        discountAmount = discount.setScale(2, RoundingMode.HALF_UP);
     }
 
     private void calculateFinalCharge() {
-        double finalChargePreRound = chargeableDays * tool.getDailyCharge() - discountAmount;
-        finalCharge = (double) Math.round(finalChargePreRound * 100) / 100;
+        BigDecimal finalChargePreRound = preDiscountCharge.subtract(discountAmount);
+        finalCharge = finalChargePreRound.setScale(2, RoundingMode.HALF_UP);
+
     }
 
     void calculateChargableDays(RentalTimeService rentalTime) {
@@ -57,17 +58,13 @@ public class CalculateCost {
     }
 
     private void fourthOfJulyCalculation(Holiday holiday, RentalTimeService rentalTime) {
-        //if the 4th falls on Saturday and the checkout date is on or before the 3rd, minus one day
-        //if the 4th falls on Sunday and the due date is on or after the 5th, minus one day
-        if(holiday.isFourthOfJulyOnWeekday() || (holiday.isFourthOfJulyOnSat()
-                && rentalTime.checkoutDate.isBefore(rentalTime.checkoutDate.minusDays(1)))
-                    || (!holiday.isFourthOfJulyOnSat() && rentalTime.dueDate.isAfter(holiday.getHolidayDate())) ) {
+        if(!tool.isHolidayCharge() && holiday.isHolidayIsObservedDuringRental()) {
             chargeableDays--;
         }
     }
 
     private void rentalDoesNotFallOnHoliday(RentalTimeService rentalTime) {
-        chargeableDays = rentalTime.numberOfDays;
+        chargeableDays = rentalTime.numberOfDaysRenting;
         if(!tool.isWeekendCharge()) {
             chargeableDays -= rentalTime.numberOfWeekendDays;
         }
