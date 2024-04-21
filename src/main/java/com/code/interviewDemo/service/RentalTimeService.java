@@ -1,5 +1,7 @@
 package com.code.interviewDemo.service;
 
+import com.code.interviewDemo.domain.Holiday;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,15 +16,18 @@ public class RentalTimeService {
     LocalDate dueDate;
     List<LocalDate> rentalDates;
     Long numberOfDays;
+
     boolean rentalFallsOnHoliday;
-    String holidayName;
+    Long numberOfHolidaysDuringRental = 0L;
+
     boolean rentalFallsOnWeekend;
     int numberOfWeekendDays = 0; //figure out better name
-
+    List<Holiday> holidays = new ArrayList<>();
 
     RentalTimeService(LocalDate checkoutDate, Long numberOfDaysRenting) {
         this.checkoutDate = checkoutDate;
         this.dueDate = checkoutDate.plusDays(numberOfDaysRenting);
+        this.numberOfDays = numberOfDaysRenting;
         getAllDatesInRental(numberOfDaysRenting);
         checkIfRentalIncludesHoliday();
         checkIfRentalIncludesWeekends();
@@ -35,16 +40,11 @@ public class RentalTimeService {
     }
 
     private void checkIfRentalIncludesHoliday() {
-        boolean laborDay = false;
-        boolean july4th = false; 
         for(LocalDate day : rentalDates) {
-            laborDay = isLaborDay(day);
-            july4th = is4thOfJuly(day);
-            if(laborDay || july4th) {
-                break;
-            }
+            isLaborDay(day); // this needs to be a list so the later dates dont overwrite the boolean
+            is4thOfJuly(day);
         }
-        rentalFallsOnHoliday = laborDay || july4th;
+        rentalFallsOnHoliday = !holidays.isEmpty();
     }
 
     private void getAllDatesInRental(Long numberOfDaysRenting) {
@@ -54,22 +54,33 @@ public class RentalTimeService {
         }
     }
 
-    public boolean is4thOfJuly(LocalDate date) {
+
+    public void is4thOfJuly(LocalDate date) {
         if(date.getMonth().equals(JULY) && date.getDayOfMonth() == 4) {
-            holidayName = "July 4th";
-            return true;
+            Holiday holiday = new Holiday();
+            holiday.setHolidayName("July 4th");
+            holiday.setHolidayDate(date);
+
+            if(date.getDayOfWeek() == DayOfWeek.SATURDAY) {
+                holiday.setFourthOfJulyOnSat(true);
+            } else if (date.getDayOfWeek() != DayOfWeek.SUNDAY ) {
+                holiday.setFourthOfJulyOnWeekday(true);
+            }
+            numberOfHolidaysDuringRental++; //might ot need this anymore
+            holidays.add(holiday);
         }
-        return false;
     }
 
-    public boolean isLaborDay(LocalDate date) {
+    public void isLaborDay(LocalDate date) {
         if (date.getDayOfWeek() == DayOfWeek.MONDAY && date.getMonth() == SEPTEMBER) {
             if (date.getDayOfMonth() <= 7) {
-                holidayName = "Labor Day";
-                return true;
+                Holiday holiday = new Holiday();
+                holiday.setHolidayName("Labor Day");
+                holiday.setHolidayDate(date);
+                numberOfHolidaysDuringRental++;
+                holidays.add(holiday);
             }
         }
-        return false;
     }
 
     public boolean isWeekend(LocalDate date) {
@@ -80,7 +91,7 @@ public class RentalTimeService {
         return false;
     }
 
-    //potential methods to work with 4th of July
-    //getDayBefore
-    //getDayAfter
+    public List<Holiday> getHolidays() {
+        return holidays;
+    }
 }
