@@ -13,13 +13,14 @@ public class RentalTimeService {
     LocalDate checkoutDate;
     LocalDate dueDate;
     List<LocalDate> rentalDates;
+    Long numberOfDays;
     boolean rentalFallsOnHoliday;
     String holidayName;
     boolean rentalFallsOnWeekend;
     int numberOfWeekendDays = 0; //figure out better name
 
 
-    RentalTimeService(LocalDate checkoutDate, int numberOfDaysRenting) {
+    RentalTimeService(LocalDate checkoutDate, Long numberOfDaysRenting) {
         this.checkoutDate = checkoutDate;
         this.dueDate = checkoutDate.plusDays(numberOfDaysRenting);
         getAllDatesInRental(numberOfDaysRenting);
@@ -46,9 +47,9 @@ public class RentalTimeService {
         rentalFallsOnHoliday = laborDay || july4th;
     }
 
-    private void getAllDatesInRental(int numberOfDaysRenting) {
+    private void getAllDatesInRental(Long numberOfDaysRenting) {
         rentalDates = new ArrayList<>();
-        for(int i = 1; i <= numberOfDaysRenting; i++){
+        for(long i = 1; i <= numberOfDaysRenting; i++){
             rentalDates.add(checkoutDate.plusDays(i));
         }
     }

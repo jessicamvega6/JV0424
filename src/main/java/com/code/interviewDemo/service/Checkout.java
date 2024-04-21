@@ -5,19 +5,23 @@ import com.code.interviewDemo.domain.Tools;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Checkout {
 
-    public RentalAgreement checkout(String toolCode, String checkoutDateStr, Integer rentalDayCount, int discountPercent ) {
+    public RentalAgreement checkout(String toolCode, String checkoutDateStr, Long rentalDayCount, int discountPercent ) {
         validateToolExists(toolCode);
-        LocalDate checkoutDate = validateAndConvertToDateObject(checkoutDateStr);
         validateRentalCount(rentalDayCount);
         validateDiscount(discountPercent);
+        LocalDate checkoutDate = validateAndConvertToDateObject(checkoutDateStr);
 
         RentalTimeService rental = new RentalTimeService(checkoutDate, rentalDayCount);
 
+        RentalAgreement test = new RentalAgreement();
+        test.setFinalCharge(12.135);
+        System.out.println(test.getFinalCharge());
         return new RentalAgreement();
     }
 
@@ -43,7 +47,7 @@ public class Checkout {
         }
     }
 
-    private void validateRentalCount(Integer rentalDayCount) {
+    private void validateRentalCount(Long rentalDayCount) {
         if(rentalDayCount < 1) {
             throw new RuntimeException("Rental day count of " + rentalDayCount + " is not valid. Please increase number of rental days.");
         }
@@ -73,9 +77,9 @@ public class Checkout {
     }
 
     private void validateToolExists(String toolCode) {
-        if(!toolExistsInCatalog(toolCode)){
+        if(!toolExistsInCatalog(toolCode)) {
             throw new RuntimeException("Tool code is incorrect, please fix checkout tool code");
-        };
+        }
     }
 
     private boolean toolExistsInCatalog(String toolCode) {

@@ -14,7 +14,7 @@ class RentalTimeServiceTest {
     void is4thOfJuly_fourthOfJuly_returnTrue() {
         LocalDate checkoutDate = LocalDate.of(2024, 7, 3);
 
-        RentalTimeService service = new RentalTimeService(checkoutDate, 4);
+        RentalTimeService service = new RentalTimeService(checkoutDate, 4L);
 
         assertThat(service.rentalFallsOnHoliday, equalTo(true));
         assertThat(service.holidayName, equalTo("July 4th"));
@@ -24,7 +24,7 @@ class RentalTimeServiceTest {
     void isLaborDay_laborDay_returnTrue() {
         LocalDate checkoutDate = LocalDate.of(2024, 9, 1);
 
-        RentalTimeService service = new RentalTimeService(checkoutDate, 4);
+        RentalTimeService service = new RentalTimeService(checkoutDate, 4L);
 
         assertThat(service.rentalFallsOnHoliday, equalTo(true));
         assertThat(service.holidayName, equalTo("Labor Day"));
@@ -34,7 +34,7 @@ class RentalTimeServiceTest {
     void is4thOfJuly_anyOtherDayButJuly4Th_returnFalse() {
         LocalDate checkoutDate = LocalDate.of(2024, 7, 5);
 
-        RentalTimeService service = new RentalTimeService(checkoutDate, 1);
+        RentalTimeService service = new RentalTimeService(checkoutDate, 1L);
 
         assertThat(service.rentalFallsOnHoliday, equalTo(false));
     }
@@ -43,7 +43,7 @@ class RentalTimeServiceTest {
     void isLaborDay_anyOtherDayButLaborDay_returnFalse() {
         LocalDate checkoutDate = LocalDate.of(2024, 9, 9);
 
-        RentalTimeService service = new RentalTimeService(checkoutDate, 4);
+        RentalTimeService service = new RentalTimeService(checkoutDate, 4L);
 
         assertThat(service.rentalFallsOnHoliday, equalTo(false));
     }
@@ -52,7 +52,7 @@ class RentalTimeServiceTest {
     void isWeekend_givenADateOnSaturday_returnTrue() {
         LocalDate checkoutDate = LocalDate.of(2024, 4, 19);
 
-        RentalTimeService service = new RentalTimeService(checkoutDate, 4);
+        RentalTimeService service = new RentalTimeService(checkoutDate, 4L);
 
         assertThat(service.rentalFallsOnWeekend, equalTo(true));
         assertThat(service.numberOfWeekendDays, equalTo(2));
@@ -62,7 +62,7 @@ class RentalTimeServiceTest {
     void isWeekend_givenADateOnSunday_returnTrue() {
         LocalDate checkoutDate = LocalDate.of(2024, 4, 20);
 
-        RentalTimeService service = new RentalTimeService(checkoutDate, 4);
+        RentalTimeService service = new RentalTimeService(checkoutDate, 4L);
 
         assertThat(service.rentalFallsOnWeekend, equalTo(true));
         assertThat(service.numberOfWeekendDays, equalTo(1));
@@ -72,7 +72,7 @@ class RentalTimeServiceTest {
     void isWeekend_givenADateOnNonSatOrSun_returnFalse() {
         LocalDate checkoutDate = LocalDate.of(2024, 4, 24);
 
-        RentalTimeService service = new RentalTimeService(checkoutDate, 2);
+        RentalTimeService service = new RentalTimeService(checkoutDate, 2L);
 
         assertThat(service.rentalFallsOnWeekend, equalTo(false));
         assertThat(service.numberOfWeekendDays, equalTo(0));
@@ -88,7 +88,7 @@ class RentalTimeServiceTest {
         expectRentalDates.add(LocalDate.of(2024, 4, 23));
         expectRentalDates.add(LocalDate.of(2024, 4, 24));
 
-        RentalTimeService service = new RentalTimeService(LocalDate.of(2024, 4, 20), 4);
+        RentalTimeService service = new RentalTimeService(LocalDate.of(2024, 4, 20), 4L);
 
         assertThat(service.checkoutDate, equalTo(expectedCheckoutDate));
         assertThat(service.dueDate, equalTo(expectedDueDate));
