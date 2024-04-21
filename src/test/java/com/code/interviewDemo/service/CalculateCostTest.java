@@ -79,6 +79,19 @@ class CalculateCostTest {
     }
 
     @Test
+    void calculateChargableDays_laddar_laborDay_returnsExpectedResult() {
+        LocalDate checkoutDate = LocalDate.of(2015, 9, 3);
+        Long expectedChargableDays = 5L;
+        BigDecimal expectedFinalCharge = new BigDecimal(Tools.LADDER.getDailyCharge() * expectedChargableDays).setScale(2, RoundingMode.HALF_UP);
+
+        RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 6L);
+
+        CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.LADDER);
+        assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));
+        assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
+    }
+
+    @Test
     void calculateChargableDays_includesBothFourthOfJulyAndLaborDay_returnsExpectedResult() {
         LocalDate checkoutDate = LocalDate.of(2023, 7, 2);
         Long expectedChargableDays = 62L;
@@ -215,6 +228,19 @@ class CalculateCostTest {
         BigDecimal expectedFinalCharge = new BigDecimal(Tools.CHAINSAW.getDailyCharge() * expectedChargableDays).setScale(2, RoundingMode.HALF_UP);
 
         RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 4L);
+
+        CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.CHAINSAW);
+        assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));
+        assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
+    }
+
+    @Test
+    void calculateChargableDays_chainsaw_laborDay_returnsExpectedResult() {
+        LocalDate checkoutDate = LocalDate.of(2015, 9, 3);
+        Long expectedChargableDays = 4L;
+        BigDecimal expectedFinalCharge = new BigDecimal(Tools.CHAINSAW.getDailyCharge() * expectedChargableDays).setScale(2, RoundingMode.HALF_UP);
+
+        RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 6L);
 
         CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.CHAINSAW);
         assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));

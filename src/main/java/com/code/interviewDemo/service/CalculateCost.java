@@ -51,7 +51,7 @@ public class CalculateCost {
 
     private void rentalFallsOnHoliday(RentalTimeService rentalTime) {
         for(Holiday holiday: rentalTime.getHolidays()) {
-            if(holiday.getHolidayName().equalsIgnoreCase("Labor Day")) {
+            if( !tool.isHolidayCharge() && holiday.getHolidayName().equalsIgnoreCase("Labor Day")) {
                 chargeableDays--;
             } else {
                 fourthOfJulyCalculation(holiday, rentalTime);
