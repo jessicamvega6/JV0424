@@ -11,8 +11,7 @@ import java.util.regex.Pattern;
 public class Checkout {
 
     public RentalAgreement checkout(String toolCode, String checkoutDateStr, Integer rentalDayCount, int discountPercent ) {
-        validateTool(toolCode);
-        validateCheckoutDate(checkoutDateStr);
+        validateToolExists(toolCode);
         LocalDate checkoutDate = validateAndConvertToDateObject(checkoutDateStr);
         validateRentalCount(rentalDayCount);
         validateDiscount(discountPercent);
@@ -50,18 +49,6 @@ public class Checkout {
         }
     }
 
-    private void validateCheckoutDate(String checkoutDate) {
-
-    }
-
-//    private void checkIfDateIsInFuture(String checkoutDate) {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/dd/yy");
-//        LocalDate localDate = LocalDate.parse(checkoutDate, formatter);
-//        if(localDate.isAfter(LocalDate.now())) {
-//            throw new RuntimeException("Checkout date is in the future. Sorry we do not hold tools for future dates");
-//        }
-//    }
-
     private LocalDate checkIfDateIsInFuture(LocalDate dateFormat1, LocalDate dateFormat2) {
         LocalDate date = dateFormat1 != null ? dateFormat1 : dateFormat2;
         if(date.isAfter(LocalDate.now())) {
@@ -85,7 +72,7 @@ public class Checkout {
         return value == null;
     }
 
-    private void validateTool(String toolCode) {
+    private void validateToolExists(String toolCode) {
         if(!toolExistsInCatalog(toolCode)){
             throw new RuntimeException("Tool code is incorrect, please fix checkout tool code");
         };

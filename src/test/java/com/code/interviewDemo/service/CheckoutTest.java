@@ -5,12 +5,7 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.isNotNull;
-
 
 public class CheckoutTest {
 
