@@ -37,12 +37,14 @@ public class CalculateCost {
     private void calculateFinalCharge() {
         BigDecimal finalChargePreRound = preDiscountCharge.subtract(discountAmount);
         finalCharge = finalChargePreRound.setScale(2, RoundingMode.HALF_UP);
-
     }
 
     void calculateChargableDays(RentalTimeService rentalTime) {
-        rentalDoesNotFallOnHoliday(rentalTime);
-        if(rentalTime.rentalFallsOnHoliday) {
+        chargeableDays = rentalTime.numberOfDaysRenting;
+        if(rentalTime.rentalFallsOnWeekend) {
+            rentalFallsOnWeekend(rentalTime);
+        }
+        if(!rentalTime.holidays.isEmpty()) {
             rentalFallsOnHoliday(rentalTime);
         }
     }
@@ -63,10 +65,9 @@ public class CalculateCost {
         }
     }
 
-    private void rentalDoesNotFallOnHoliday(RentalTimeService rentalTime) {
-        chargeableDays = rentalTime.numberOfDaysRenting;
+    private void rentalFallsOnWeekend(RentalTimeService rentalTime) {
         if(!tool.isWeekendCharge()) {
-            chargeableDays -= rentalTime.numberOfWeekendDays;
+            chargeableDays -= rentalTime.numberDaysInWeekendDuringRental;
         }
     }
 }
