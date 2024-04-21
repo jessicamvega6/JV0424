@@ -5,24 +5,21 @@ import com.code.interviewDemo.domain.Tools;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Checkout {
 
     public RentalAgreement checkout(String toolCode, String checkoutDateStr, Long rentalDayCount, int discountPercent ) {
-        validateToolExists(toolCode);
+        Tools tool = validateToolExistsAndReturnTool(toolCode);
         validateRentalCount(rentalDayCount);
         validateDiscount(discountPercent);
         LocalDate checkoutDate = validateAndConvertToDateObject(checkoutDateStr);
 
         RentalTimeService rental = new RentalTimeService(checkoutDate, rentalDayCount);
-
-        RentalAgreement test = new RentalAgreement();
-        test.setFinalCharge(12.135);
-        System.out.println(test.getFinalCharge());
-        return new RentalAgreement();
+        CalculateCost cost = new CalculateCost(rental, discountPercent, tool);
+        RentalAgreementService service = new RentalAgreementService(rental, cost);
+        return service.getRentalAgreement();
     }
 
     private LocalDate validateAndConvertToDateObject(String checkoutDateStr) {
@@ -76,18 +73,21 @@ public class Checkout {
         return value == null;
     }
 
-    private void validateToolExists(String toolCode) {
-        if(!toolExistsInCatalog(toolCode)) {
+    private Tools validateToolExistsAndReturnTool(String toolCode) {
+        Tools tool = findToolInCatalog(toolCode);
+        if(tool == null) {
             throw new RuntimeException("Tool code is incorrect, please fix checkout tool code");
         }
+        return tool;
     }
 
-    private boolean toolExistsInCatalog(String toolCode) {
+    private Tools findToolInCatalog(String toolCode) {
+        Tools tool = null;
         for (Tools product : Tools.values()) {
             if (product.getToolCode().equalsIgnoreCase(toolCode)) {
-                return true;
+                tool = product;
             }
         }
-        return false;
+        return tool;
     }
 }

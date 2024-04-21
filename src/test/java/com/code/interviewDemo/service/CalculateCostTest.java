@@ -51,7 +51,7 @@ class CalculateCostTest {
     }
 
     @Test
-    void calculateChargableDays_laddar_duringWeekAndWeekend_yesHolidayDuringWeek_returnsExpectedResult() {
+    void calculateChargableDays_laddar_duringWeekAndWeekend_yesHolidayDuringWeek_returnsExpectedResult() { //re look at this one, dont think it covers the weekend
         LocalDate checkoutDate = LocalDate.of(2022, 7, 3);
         Long expectedChargableDays = 2L;
         Double expectedFinalCharge = Tools.LADDER.getDailyCharge() * expectedChargableDays;
@@ -90,6 +90,137 @@ class CalculateCostTest {
     }
 
     @Test
+    void calculateChargableDays_jackhammer_duringWeekOnly_noHoliday_returnsExpectedResult() {
+        LocalDate checkoutDate = LocalDate.of(2024, 4, 2);
+        Long expectedChargableDays = 3L;
+        Double expectedFinalCharge = Tools.JACKHAMMER_R.getDailyCharge() * expectedChargableDays;
+
+        RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 3L);
+
+        CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.JACKHAMMER_R);
+        assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));
+        assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
+    }
+
+    @Test
+    void calculateChargableDays_jackhammer_duringWeekOnly_yesHolidayDuringWeek_returnsExpectedResult() {
+        LocalDate checkoutDate = LocalDate.of(2023, 7, 3);
+        Long expectedChargableDays = 2L;
+        Double expectedFinalCharge = Tools.JACKHAMMER_R.getDailyCharge() * expectedChargableDays;
+
+        RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 3L);
+
+        CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.JACKHAMMER_R);
+        assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));
+        assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
+    }
+
+    @Test
+    void calculateChargableDays_jackhammer_duringWeekAndWeekend_noHoliday_returnsExpectedResult() {
+        LocalDate checkoutDate = LocalDate.of(2024, 4, 2);
+        Long expectedChargableDays = 3L; //delta of 1 or 2 for daysrenting
+        Double expectedFinalCharge = Tools.JACKHAMMER_R.getDailyCharge() * expectedChargableDays;
+
+        RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 5L);
+
+        CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.JACKHAMMER_R);
+        assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));
+        assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
+    }
+
+    @Test
+    void calculateChargableDays_jackhammer_duringWeekAndWeekend_yesHolidayDuringWeek_returnsExpectedResult() {
+        LocalDate checkoutDate = LocalDate.of(2022, 7, 3);
+        Long expectedChargableDays = 4L;
+        Double expectedFinalCharge = Tools.JACKHAMMER_R.getDailyCharge() * expectedChargableDays;
+
+        RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 7L);
+
+        CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.JACKHAMMER_R);
+        assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));
+        assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
+    }
+
+    @Test
+    void calculateChargableDays_jackhammer_duringWeekAndWeekend_yesHolidayDuringWeekend_returnsExpectedResult() {
+        LocalDate checkoutDate = LocalDate.of(2021, 7, 2);
+        Long expectedChargableDays = 0L;
+        Double expectedFinalCharge = Tools.JACKHAMMER_R.getDailyCharge() * expectedChargableDays;
+
+        RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 3L);
+
+        CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.JACKHAMMER_R);
+        assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));
+        assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
+    }
+
+    @Test
+    void calculateChargableDays_chainsaw_duringWeekOnly_noHoliday_returnsExpectedResult() {
+        LocalDate checkoutDate = LocalDate.of(2024, 4, 2);
+        Long expectedChargableDays = 3L;
+        Double expectedFinalCharge = Tools.CHAINSAW.getDailyCharge() * expectedChargableDays;
+
+        RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 3L);
+
+        CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.CHAINSAW);
+        assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));
+        assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
+    }
+
+    @Test
+    void calculateChargableDays_chainsaw_duringWeekOnly_yesHolidayDuringWeek_returnsExpectedResult() {
+        LocalDate checkoutDate = LocalDate.of(2023, 7, 3);
+        Long expectedChargableDays = 3L;
+        Double expectedFinalCharge = Tools.CHAINSAW.getDailyCharge() * expectedChargableDays;
+
+        RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 3L);
+
+        CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.CHAINSAW);
+        assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));
+        assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
+    }
+
+    @Test
+    void calculateChargableDays_chainsaw_duringWeekAndWeekend_noHoliday_returnsExpectedResult() {
+        LocalDate checkoutDate = LocalDate.of(2024, 4, 2);
+        Long expectedChargableDays = 3L;
+        Double expectedFinalCharge = Tools.CHAINSAW.getDailyCharge() * expectedChargableDays;
+
+        RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 5L);
+
+        CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.CHAINSAW);
+        assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));
+        assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
+    }
+
+    @Test
+    void calculateChargableDays_chainsaw_duringWeekAndWeekend_yesHolidayDuringWeek_returnsExpectedResult() {
+        LocalDate checkoutDate = LocalDate.of(2022, 7, 2);
+        Long expectedChargableDays = 3L;
+        Double expectedFinalCharge = Tools.CHAINSAW.getDailyCharge() * expectedChargableDays;
+
+        RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 4L);
+
+        CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.CHAINSAW);
+        assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));
+        assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
+    }
+
+    @Test
+    void calculateChargableDays_chainsaw_duringWeekAndWeekend_yesHolidayDuringWeekend_returnsExpectedResult() {
+        LocalDate checkoutDate = LocalDate.of(2021, 7, 2);
+        Long expectedChargableDays = 2L;
+        Double expectedFinalCharge = Tools.CHAINSAW.getDailyCharge() * expectedChargableDays;
+
+        RentalTimeService rentalTimeService = new RentalTimeService(checkoutDate, 4L);
+
+        CalculateCost calculateCost = new CalculateCost(rentalTimeService, 0, Tools.CHAINSAW);
+        assertThat(calculateCost.chargeableDays, equalTo(expectedChargableDays));
+        assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
+    }
+
+
+    @Test
     void calculateChargableDays_3ChargableDays_25PercentDiscount_returnsExpectedResult() {
         LocalDate checkoutDate = LocalDate.of(2021, 7, 12);
         Long expectedChargableDays = 3L;
@@ -110,5 +241,4 @@ class CalculateCostTest {
         assertThat(calculateCost.discountAmount, equalTo(1.49));
         assertThat(calculateCost.finalCharge, equalTo(expectedFinalCharge));
     }
-
 }

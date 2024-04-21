@@ -53,6 +53,15 @@ class RentalTimeServiceTest {
     }
 
     @Test
+    void isLaborDay_laborDayOnMonday7_returnTrue() {
+        LocalDate checkoutDate = LocalDate.of(2026, 9, 6);
+
+        RentalTimeService service = new RentalTimeService(checkoutDate, 4L);
+
+        assertThat(service.rentalFallsOnHoliday, equalTo(true));
+    }
+
+    @Test
     void isWeekend_givenADateOnSaturday_returnTrue() {
         LocalDate checkoutDate = LocalDate.of(2024, 4, 19);
 
