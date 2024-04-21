@@ -6,9 +6,9 @@ public enum Tools {
     JACKHAMMER_D("JAKD","Jackhammer","DeWalt"),
     JACKHAMMER_R("JAKR","Jackhammer","Ridgid");
 
-    String toolCode;
-    String toolType;
-    String brand;
+    final String toolCode;
+    final String toolType;
+    final String brand;
 
     Tools(String toolCode, String toolType, String brand) {
         this.toolCode = toolCode;

@@ -16,6 +16,9 @@ public class Checkout {
         validateRentalCount(rentalDayCount);
         validateDiscount(discountPercent);
 
+        RentalTimeService rental = new RentalTimeService(checkoutDate, rentalDayCount);
+
+
 
         return new RentalAgreement();
     }
@@ -69,7 +72,7 @@ public class Checkout {
 
     private boolean toolExistsInCatalog(String toolCode) {
         for (Tools product : Tools.values()) {
-            if (product.getToolType().equalsIgnoreCase(toolCode)) {
+            if (product.getToolCode().equalsIgnoreCase(toolCode)) {
                 return true;
             }
         }
