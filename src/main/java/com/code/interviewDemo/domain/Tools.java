@@ -3,8 +3,8 @@ package com.code.interviewDemo.domain;
 public enum Tools {
     CHAINSAW("CHNS", "Chainsaw", "Stihl", 1.49, true, false, true),
     LADDER("LADW","Ladder","Werner", 1.99, true, true, false),
-    JACKHAMMER_D("JAKD","Jackhammer","DeWalt", 2.00, true, false, false),
-    JACKHAMMER_R("JAKR","Jackhammer","Ridgid", 2.00, true, false, false);
+    JACKHAMMER_D("JAKD","Jackhammer","DeWalt", 2.99, true, false, false),
+    JACKHAMMER_R("JAKR","Jackhammer","Ridgid", 2.99, true, false, false);
 
     final String toolCode;
     final String toolType;
